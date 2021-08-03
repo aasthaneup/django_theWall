@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User's Wall</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="header mt-3">
+            <a class = "float-right mt-4 ml-5 "" href="/logout">Log out</a>
+            <p class="float-right mt-4 mr-5">Welcome <span class="text-info">{{logged_user.first_name}}</span>!</p>
+            <h1>CodingDojo Wall</h1>
+        </div>
+        <div class="line"></div>
+        <div class="content ml-5 mr-5">
+            <form class= "wallform" action="/post_msg" method = "POST">
+            {% csrf_token %}
+                <div class="form-group mt-4">
+                    <label for="message" class="text-info font-weight-bold">Post a message</label>
+                    <textarea class="form-control" id="message" rows="3" name = "postedmsg"></textarea>
+                    <button class="postbtn btn btn-primary float-right mt-3">Post a message</button>
+                </div>
+            </form>
+            <br>
+        </div>
+        <div class="bodyline"></div>
+        <div class="cmmttome ml-2 mr-5">
+            {% for msg in all_messages %}
+                {% if msg.message_posted_by.id == logged_user.id %}
+                    <a class="btn btn-danger float-right" href = "/delete/{{msg.id}}">Delete this post</a>
+                {% endif %}
+                <h5 class="font-weight-bold text-info">{{msg.message_posted_by.first_name}} {{ msg.message_posted_by.last_name }} - {{ msg.created_at }}</h5>
+                <div class="ml-3">
+                    <p>{{ msg.message }}</p>
+                    {% for cmt in msg.related_comments.all|dictsort:'updated_at' %}
+                        <p class="text-success font-weight-bold">{{ cmt.comment_posted_by.first_name }} {{ cmt.comment_posted_by.last_name }} - {{ cmt.created_at }}</p>
+                        <p>{{cmt.comment}}</p>
+                    {% endfor %}
+                    <form class= "wallform" action="/post_cmt/{{msg.id}}" method="POST">
+                    {% csrf_token %}
+                        <div class="form-group mt-4">
+                            <label for="comment" class="text-info font-weight-bold">Post a comment</label>
+                            <textarea class="form-control" id="comment" rows="3" name = "postedcmt"></textarea>
+                            <button class="btn btn-success float-right mt-3">Post a comment</button>
+                            <br>
+                        </div>
+                    </form>
+                </div>
+                <div class="bodyline"></div>
+            {% endfor %}
+            
+        </div>
+        
+    </div>
+</body>
+</html>
