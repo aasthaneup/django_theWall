@@ -12,9 +12,9 @@
 <body>
     <div class="container">
         <div class="header mt-3">
-            <a class = "float-right mt-4 ml-5 "" href="/logout">Log out</a>
+            <a class = "float-right mt-4 ml-5" href="/logout">Log out</a>
             <p class="float-right mt-4 mr-5">Welcome <span class="text-info">{{logged_user.first_name}}</span>!</p>
-            <h1>CodingDojo Wall</h1>
+            <h1>The Wall</h1>
         </div>
         <div class="line"></div>
         <div class="content ml-5 mr-5">
@@ -28,11 +28,12 @@
             </form>
             <br>
         </div>
-        <div class="bodyline"></div>
+        <div class="secline"></div>
+        <div class="bodyline mt-5"></div>
         <div class="cmmttome ml-2 mr-5">
             {% for msg in all_messages %}
                 {% if msg.message_posted_by.id == logged_user.id %}
-                    <a class="btn btn-danger float-right" href = "/delete/{{msg.id}}">Delete this post</a>
+                    <a class="btn btn-danger float-right mt-5" href = "/delete/{{msg.id}}">Delete this post</a>
                 {% endif %}
                 <h5 class="font-weight-bold text-info">{{msg.message_posted_by.first_name}} {{ msg.message_posted_by.last_name }} - {{ msg.created_at }}</h5>
                 <div class="ml-3">
@@ -47,6 +48,7 @@
                             <label for="comment" class="text-info font-weight-bold">Post a comment</label>
                             <textarea class="form-control" id="comment" rows="3" name = "postedcmt"></textarea>
                             <button class="btn btn-success float-right mt-3">Post a comment</button>
+                            <br>
                             <br>
                         </div>
                     </form>

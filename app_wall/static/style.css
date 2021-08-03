@@ -38,6 +38,16 @@
     margin: auto;
     margin-bottom: 20px;
 }
+.secline{
+    height: 2px;
+    background-color: rgb(6, 54, 100);
+    border-radius: 40%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+.cmtmsgs{
+    border-bottom: 2px solid rgb(3, 74, 85);
+}
 .bodyline{
     height: 3px;
     background-color: cadetblue;
